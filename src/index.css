@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+@theme {
+  /* هنا بنعرف الألوان اللي الـ HTML هيشوفها */
+  --color-primary: #1e3a8a;    /* الأزرق */
+  --color-secondary: #7c3aed;  /* البنفسجي */
+  --color-background: #f8fafc; /* لون الخلفية */
+  --color-surface: #ffffff;    /* لون الكروت */
+  --color-success: #10b981;    /* الأخضر */
+  --color-error: #ef4444;      /* الأحمر */
+  
+  /* ممكن كمان تعرفي مسافات وحواف ثابتة */
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+}
+
+/* أي حاجة هنا هتطبق على الموقع كله */
+@layer base {
+  body {
+    direction: rtl; /* عشان إحنا شغالين عربي */
+    @apply bg-background text-slate-900; 
+  }
+}
