@@ -1,23 +1,38 @@
 @import "tailwindcss";
 
 @theme {
-  /* هنا بنعرف الألوان اللي الـ HTML هيشوفها */
-  --color-primary: #1e3a8a;    /* الأزرق */
-  --color-secondary: #7c3aed;  /* البنفسجي */
-  --color-background: #f8fafc; /* لون الخلفية */
-  --color-surface: #ffffff;    /* لون الكروت */
-  --color-success: #10b981;    /* الأخضر */
-  --color-error: #ef4444;      /* الأحمر */
-  
-  /* ممكن كمان تعرفي مسافات وحواف ثابتة */
+  /* الألوان الأساسية */
+  --color-primary-light: #3b82f6;
+  --color-primary: #1e40af;
+  --color-primary-dark: #1e3a8a;
+
+  /* الألوان المحايدة */
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-300: #d1d5db;
+  --color-gray-500: #6b7280;
+  --color-gray-700: #374151;
+  --color-gray-900: #111827;
+
+  /* الألوان الدلالية */
+  --color-in-progress: #06b6d4;
+  --color-info: #3b82f6;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+  --color-success: #10b981;
+
+  /* لون الخلفية والكروت */
+  --color-background: #f9fafb;
+  --color-surface: #ffffff;
+
+  /* مسافات وحواف ثابتة */
   --radius-xl: 1rem;
   --radius-2xl: 1.5rem;
 }
 
-/* أي حاجة هنا هتطبق على الموقع كله */
 @layer base {
   body {
-    direction: rtl; /* عشان إحنا شغالين عربي */
+    direction: rtl; 
     @apply bg-background text-slate-900; 
   }
 }
