@@ -4,6 +4,7 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import AuthLayout from "./layouts/AuthLayout.jsx";
 import Login from "./pages/auth/Login.jsx";
+import LandingPage from "./pages/landingPage/LandingPage.jsx";
 
 
 export default function App() {
@@ -17,6 +18,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<LandingPage />} />
 
         <Route element={<AuthLayout />}>
           <Route path="/login" element={<Login />} />
@@ -24,7 +26,7 @@ export default function App() {
         </Route>
 
         
-        <Route path="/" element={<Navigate to="/login" />} />
+        <Route path="*" element={<Navigate to="/" />} />
 
       </Routes>
     </BrowserRouter>
