@@ -1,5 +1,5 @@
 import React from "react";
-import { HiOutlineCursorArrowRays, HiOutlinePencilSquare, HiOutlineClipboardDocumentCheck, HiOutlineMapPin } from "react-icons/hi2";
+import { HiOutlineCursorArrowRays, HiOutlinePencilSquare, HiOutlineClipboardDocumentCheck, HiOutlineLightBulb } from "react-icons/hi2";
 import { FaCarSide } from "react-icons/fa6";
 
 const STEPS = [
@@ -34,8 +34,8 @@ export default function HowItWorks() {
     <section id="how-it-works" className="landing-section bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <div data-aos="fade-up">
-          <span className="section-badge">
-            <HiOutlineMapPin className="inline" size={16} /> كيف يعمل
+          <span className="section-badge flex items-center justify-center gap-2 w-fit mx-auto">
+            <HiOutlineLightBulb size={20} /> كيف يعمل
           </span>
           <h2 className="section-title">احجز خدمتك في 4 خطوات بسيطة</h2>
           <p className="section-subtitle">

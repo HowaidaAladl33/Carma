@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { HiOutlineBars3, HiXMark } from "react-icons/hi2";
+import { HiOutlineBars3, HiXMark, HiOutlineArrowDownTray } from "react-icons/hi2";
 
 const NAV_LINKS = [
   { label: "الرئيسية", href: "#hero" },
@@ -52,8 +52,9 @@ export default function Navbar() {
           <div className="hidden md:flex items-center flex-shrink-0">
             <a
               href="#cta"
-              className="bg-primary hover:bg-primary-dark text-white px-6 py-2.5 rounded-full font-bold text-sm shadow-md hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300"
+              className="bg-primary hover:bg-primary-dark text-white px-6 py-2.5 rounded-full font-bold text-sm shadow-md hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-2"
             >
+              <HiOutlineArrowDownTray size={18} />
               تحميل التطبيق
             </a>
           </div>
@@ -89,9 +90,10 @@ export default function Navbar() {
           <div className="pt-4 mt-4 border-t border-gray-100">
             <a
               href="#cta"
-              className="block w-full text-center bg-primary text-white py-3 rounded-xl font-bold"
+              className="flex items-center justify-center gap-2 w-full bg-primary text-white py-3 rounded-xl font-bold"
               onClick={handleLinkClick}
             >
+              <HiOutlineArrowDownTray size={20} />
               تحميل التطبيق
             </a>
           </div>

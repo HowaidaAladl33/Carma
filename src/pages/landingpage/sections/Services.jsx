@@ -2,6 +2,7 @@ import React from "react";
 import ServiceCard from "../components/ServiceCard";
 import { HiOutlinePhone } from "react-icons/hi2";
 import { FaDroplet, FaCircleDot, FaWater, FaTruckPickup, FaBatteryFull } from "react-icons/fa6";
+import { MdMiscellaneousServices } from "react-icons/md";
 
 const SERVICES = [
   {
@@ -53,7 +54,8 @@ export default function Services() {
     <section id="services" className="landing-section bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <div data-aos="fade-up">
-          <span className="section-badge">
+          <span className="section-badge flex items-center justify-center gap-2 w-fit mx-auto">
+            <MdMiscellaneousServices size={20} />
             خدماتنا
           </span>
           <h2 className="section-title">خدمات شاملة لسيارتك</h2>

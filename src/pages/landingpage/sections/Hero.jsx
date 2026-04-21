@@ -5,6 +5,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css/effect-fade";
+import { HiOutlineArrowDownTray } from "react-icons/hi2";
 
 import slide1 from "../../../assets/images/landing/slide1.png";
 import slide2 from "../../../assets/images/landing/slide2.png";
@@ -44,7 +45,7 @@ export default function Hero() {
                 href="#cta"
                 className="inline-flex items-center gap-2 bg-white text-primary font-bold px-8 py-4 rounded-xl hover:bg-blue-50 transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5 text-sm"
               >
-                <span>📲</span>
+                <HiOutlineArrowDownTray size={18} />
                 حمّل التطبيق الآن
               </a>
             </div>
