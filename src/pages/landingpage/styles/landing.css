@@ -439,12 +439,33 @@
 /* ---------- Navbar ---------- */
 .landing-nav {
   backdrop-filter: blur(16px);
-  background: rgba(255, 255, 255, 0.85);
-  transition: all 0.3s;
+  background: rgba(255, 255, 255, 0.8);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-top: 1.25rem;
+  border-radius: 100px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  width: 95% !important;
+  max-width: 1280px;
+  left: 50% !important;
+  transform: translateX(-50%);
+  z-index: 1000;
+  position: fixed;
+  top: 0;
+}
+
+@media (min-width: 768px) {
+  .landing-nav {
+    width: 90% !important;
+    margin-top: 1.5rem;
+  }
 }
 
 .landing-nav.scrolled {
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.08);
+  margin-top: 0.75rem;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 12px 40px rgba(30, 64, 175, 0.12);
+  border-color: rgba(30, 64, 175, 0.08);
+  width: 92% !important;
 }
 
 .nav-link {
