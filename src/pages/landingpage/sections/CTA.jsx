@@ -1,5 +1,6 @@
 import React from "react";
 import slide3 from "../../../assets/images/landing/slide3.png";
+import { FaApple, FaGooglePlay } from "react-icons/fa6";
 
 export default function CTA() {
   return (
@@ -19,14 +20,14 @@ export default function CTA() {
             </p>
             <div className="flex flex-wrap gap-4">
               <button className="flex items-center gap-3 bg-white text-primary font-bold px-6 py-3 rounded-xl hover:bg-blue-50 transition-all duration-300 shadow-lg cursor-pointer">
-                <span className="text-2xl">🍎</span>
+                <FaApple size={24} />
                 <div className="text-right">
                   <div className="text-[10px] opacity-70">حمّل من</div>
                   <div className="text-sm font-bold">App Store</div>
                 </div>
               </button>
               <button className="flex items-center gap-3 bg-white/10 backdrop-blur-sm text-white font-bold px-6 py-3 rounded-xl border border-white/20 hover:bg-white/20 transition-all duration-300 cursor-pointer">
-                <span className="text-2xl">▶️</span>
+                <FaGooglePlay size={22} />
                 <div className="text-right">
                   <div className="text-[10px] opacity-70">حمّل من</div>
                   <div className="text-sm font-bold">Google Play</div>

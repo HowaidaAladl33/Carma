@@ -1,5 +1,6 @@
 import React from "react";
 import PricingCard from "../components/PricingCard";
+import { HiOutlineCurrencyDollar } from "react-icons/hi2";
 
 const PLANS = [
   {
@@ -47,7 +48,9 @@ export default function Pricing() {
     <section id="pricing" className="landing-section bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <div data-aos="fade-up">
-          <span className="section-badge">💰 الأسعار</span>
+          <span className="section-badge flex items-center justify-center gap-2 w-fit mx-auto">
+            <HiOutlineCurrencyDollar size={20} /> الأسعار
+          </span>
           <h2 className="section-title">اختر الباقة المناسبة لك</h2>
           <p className="section-subtitle">
             باقات متنوعة تناسب احتياجاتك مع أسعار تنافسية وشفافة بدون رسوم مخفية

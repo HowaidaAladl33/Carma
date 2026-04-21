@@ -6,6 +6,9 @@ content: [
 ],
 theme: {
     extend: {
+    fontFamily: {
+        sans: ['Tajawal', 'sans-serif'],
+    },
     colors: {
         primary: {
           light: "#3b82f6",

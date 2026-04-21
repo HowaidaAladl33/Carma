@@ -1,18 +1,22 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap');
 
 @theme {
-  /* الألوان الأساسية */
+  /* الألوان الأساسية - Navy Blue */
+  --color-primary: #1e3a8a;
   --color-primary-light: #3b82f6;
-  --color-primary: #1e40af;
-  --color-primary-dark: #1e3a8a;
+  --color-primary-dark: #172554;
 
   /* الألوان المحايدة */
   --color-gray-50: #f9fafb;
   --color-gray-100: #f3f4f6;
   --color-gray-300: #d1d5db;
-  --color-gray-500: #6b7280;
-  --color-gray-700: #374151;
-  --color-gray-900: #111827;
+  --color-gray-500: #64748b;
+  --color-gray-700: #334155;
+  --color-gray-900: #0f172a;
+
+  /* Fonts */
+  --font-tajawal: "Tajawal", sans-serif;
 
   /* الألوان الدلالية */
   --color-in-progress: #06b6d4;
@@ -22,7 +26,7 @@
   --color-success: #10b981;
 
   /* لون الخلفية والكروت */
-  --color-background: #f9fafb;
+  --color-background: #ffffff;
   --color-surface: #ffffff;
 
   /* مسافات وحواف ثابتة */
@@ -31,8 +35,14 @@
 }
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 110px;
+  }
+
   body {
     direction: rtl; 
-    @apply bg-background text-slate-900; 
+    font-family: var(--font-tajawal);
+    @apply bg-white text-slate-900; 
   }
 }
