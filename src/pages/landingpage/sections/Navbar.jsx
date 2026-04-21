@@ -15,7 +15,7 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const onScroll = () => setScrolled(window.scrollY > 400);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -24,14 +24,16 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`landing-nav fixed z-50 transition-all duration-500 ${scrolled ? "scrolled" : ""}`}
+      className={`landing-nav fixed z-50 transition-all duration-500 ${scrolled ? "scrolled" : ""} ${mobileOpen ? "mobile-open" : ""}`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
           <div className="flex-shrink-0">
             <a href="#hero" className="flex items-center gap-2">
-              <span className="text-2xl font-black text-primary italic tracking-tighter">
+              <span className={`text-2xl font-black italic tracking-tighter transition-colors duration-500 ${
+                scrolled || mobileOpen ? "text-white" : "text-primary"
+              }`}>
                 CarMA
               </span>
             </a>
@@ -52,7 +54,11 @@ export default function Navbar() {
           <div className="hidden md:flex items-center flex-shrink-0">
             <a
               href="#cta"
-              className="bg-primary hover:bg-primary-dark text-white px-6 py-2.5 rounded-full font-bold text-sm shadow-md hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-2"
+              className={`px-6 py-2.5 rounded-full font-bold text-sm shadow-md hover:shadow-xl hover:-translate-y-0.5 transition-all duration-500 flex items-center gap-2 ${
+                scrolled 
+                  ? "bg-white text-primary hover:bg-blue-50" 
+                  : "bg-primary text-white hover:bg-primary-dark"
+              }`}
             >
               <HiOutlineArrowDownTray size={18} />
               تحميل التطبيق
@@ -61,7 +67,9 @@ export default function Navbar() {
 
           {/* Mobile Toggle */}
           <button
-            className="md:hidden text-gray-700 p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            className={`md:hidden p-2 rounded-lg transition-all duration-500 ${
+              scrolled || mobileOpen ? "text-gray-700 hover:bg-gray-100" : "text-white hover:bg-white/10"
+            }`}
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Toggle menu"
           >
