@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { HiOutlineBars3, HiXMark, HiOutlineArrowDownTray } from "react-icons/hi2";
 
 const NAV_LINKS = [
@@ -50,14 +51,16 @@ export default function Navbar() {
             </div>
           </div>
 
-          {/* Download Button (Desktop) */}
-          <div className="hidden md:flex items-center flex-shrink-0">
+          {/* Action Buttons (Desktop) */}
+          <div className="hidden md:flex items-center gap-4 flex-shrink-0">
+
+            
             <a
               href="#cta"
               className={`px-6 py-2.5 rounded-full font-bold text-sm shadow-md hover:shadow-xl hover:-translate-y-0.5 transition-all duration-500 flex items-center gap-2 ${
                 scrolled 
                   ? "bg-white text-primary hover:bg-blue-50" 
-                  : "bg-primary text-white hover:bg-primary-dark"
+                  : "bg-primary text-white hover:bg-primary-dark shadow-primary/20"
               }`}
             >
               <HiOutlineArrowDownTray size={18} />
@@ -81,7 +84,7 @@ export default function Navbar() {
       {/* Mobile Menu */}
       <div
         className={`md:hidden overflow-hidden transition-all duration-500 ease-in-out ${
-          mobileOpen ? "max-h-[500px] border-t border-gray-100" : "max-h-0"
+          mobileOpen ? "max-h-[600px] border-t border-gray-100" : "max-h-0"
         }`}
       >
         <div className="px-6 py-6 space-y-4 bg-white/95 backdrop-blur-md rounded-b-[2rem]">
@@ -95,10 +98,12 @@ export default function Navbar() {
               {link.label}
             </a>
           ))}
-          <div className="pt-4 mt-4 border-t border-gray-100">
+          <div className="pt-4 mt-4 border-t border-gray-100 space-y-3">
+
+            
             <a
               href="#cta"
-              className="flex items-center justify-center gap-2 w-full bg-primary text-white py-3 rounded-xl font-bold"
+              className="flex items-center justify-center gap-2 w-full bg-primary text-white py-3 rounded-xl font-bold transition-transform active:scale-95"
               onClick={handleLinkClick}
             >
               <HiOutlineArrowDownTray size={20} />

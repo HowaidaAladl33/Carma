@@ -1,12 +1,23 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Button from "../../component/ui/Button";
 import Input from "../../component/ui/Input";
 import { HiOutlineLockClosed, HiOutlineEnvelope, HiOutlineEye } from "react-icons/hi2";
-import { FcGoogle } from "react-icons/fc";
-import { FaApple } from "react-icons/fa";
 
 export default function Login() {
-  const [userRole, setUserRole] = useState('client');
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    
+    // Simulate a brief loading state for a more realistic feel
+    setTimeout(() => {
+      setIsLoading(false);
+      navigate('/dashboard');
+    }, 1000);
+  };
 
   return (
     <div  className=" relative flex flex-col items-center justify-center bg-[#EFF6FF] p-4 rounded-3xl font-sans select-none" dir="rtl">
@@ -20,12 +31,13 @@ export default function Login() {
       <h2 className="text-2xl font-black text-slate-800 text-center mb-2">مرحباً Super admin! 👋</h2>
       <p className="text-slate-400 text-sm text-center mb-8 font-medium">سجل دخولك للوصول إلى حسابك</p>
 
-      <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
+      <form className="space-y-5" onSubmit={handleLogin}>
         <Input
           label="البريد الإلكتروني"
           icon={<HiOutlineEnvelope className="text-slate-300" size={20} />}
           placeholder="example@mail.com"
           type="email"
+          required
         />
 
         <div className="relative">
@@ -34,6 +46,7 @@ export default function Login() {
             type="password"
             icon={<HiOutlineLockClosed className="text-slate-300" size={20} />}
             placeholder="********"
+            required
           />
           <button type="button" className="absolute left-4 top-[45px] text-slate-400 hover:text-slate-600 transition-colors">
             <HiOutlineEye size={18} />
@@ -45,19 +58,23 @@ export default function Login() {
             <input type="checkbox" className="w-4 h-4 rounded border-slate-200 text-[#1D4ED8]" />
             تذكرني
           </label>
-          {/* <a href="#" className="text-[#1D4ED8] font-bold hover:underline transition-all">نسيت كلمة المرور؟</a> */}
         </div>
 
         <Button
           type="submit"
-          className="w-full bg-[#1D4ED8] hover:bg-[#1e40af] h-14 rounded-2xl shadow-lg shadow-blue-100 text-lg font-bold mt-4 transition-all"
+          className="w-full bg-[#1D4ED8] hover:bg-[#1e40af] h-14 rounded-2xl shadow-lg shadow-blue-100 text-lg font-bold mt-4 transition-all flex items-center justify-center gap-2"
+          disabled={isLoading}
         >
-          تسجيل الدخول
+          {isLoading ? (
+            <div className="flex items-center gap-2">
+              <span className="animate-pulse">جاري تسجيل الدخول...</span>
+            </div>
+          ) : (
+            "تسجيل الدخول"
+          )}
         </Button>
-       
       </form>
     </div>
     </div>
   );
-
 };
