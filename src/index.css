@@ -7,6 +7,11 @@
   --color-primary-light: #3b82f6;
   --color-primary-dark: #172554;
 
+  /* Sidebar */
+  --color-sidebar: #1B2559;
+  --color-sidebar-hover: #253170;
+  --color-sidebar-active: #2D3A80;
+
   /* الألوان المحايدة */
   --color-gray-50: #f9fafb;
   --color-gray-100: #f3f4f6;
@@ -26,7 +31,7 @@
   --color-success: #10b981;
 
   /* لون الخلفية والكروت */
-  --color-background: #ffffff;
+  --color-background: #f0f4f8;
   --color-surface: #ffffff;
 
   /* مسافات وحواف ثابتة */

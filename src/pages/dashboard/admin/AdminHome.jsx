@@ -1,205 +1,240 @@
-import React, { useState, useEffect } from 'react';
-import StatCard from '../../../component/dashboard/StatCard';
-import DashboardHeader from '../../../component/dashboard/DashboardHeader';
-import OrderApprovalCard from '../../../component/dashboard/OrderApprovalCard';
-import AlertCard from '../../../component/dashboard/AlertCard';
-import TechnicianCard from '../../../component/dashboard/TechnicianCard';
-import { dashboardService, orderService } from '../../../services/api';
-import CurrentOrderRow from '../../../component/dashboard/CurrentOrderRow';
-import { 
-  Users, 
-  ShoppingBag, 
-  Clock, 
-  Settings, 
-  CheckCircle, 
-  TrendingUp,
-  Droplets,
-  Battery,
-  AlertCircle,
-  UserCheck,
-  CreditCard,
-  Truck,
-  Wind,
-  CircleSlash,
-  Target
-} from 'lucide-react';
+import { useAuth } from "../../../context/AuthContext";
+import {
+  HiOutlinePlusCircle,
+  HiOutlineMapPin,
+  HiOutlineArrowPath,
+  HiOutlineCreditCard,
+  HiOutlineWrench,
+  HiOutlineCog6Tooth,
+  HiOutlineTruck,
+  HiOutlineSparkles,
+  HiOutlineExclamationTriangle,
+  HiOutlineBolt,
+  HiOutlineChatBubbleOvalLeft,
+  HiOutlinePhone,
+  HiOutlineQuestionMarkCircle,
+  HiOutlineCheckCircle,
+  HiOutlineArrowLeft,
+} from "react-icons/hi2";
 
-const AdminHome = () => {
-  const [loading, setLoading] = useState(true);
-  const [stats, setStats] = useState([]);
-  const [pendingOrders, setPendingOrders] = useState([]);
-  const [currentOrders, setCurrentOrders] = useState([]);
-  const [alerts, setAlerts] = useState([]);
-  const [technicians, setTechnicians] = useState([]);
+/* ─── Quick Actions Config ─── */
+const quickActions = [
+  { label: "احجز خدمة جديدة", icon: HiOutlinePlusCircle, color: "#10b981" },
+  { label: "تتبع الطلب", icon: HiOutlineMapPin, color: "#3b82f6" },
+  { label: "إعادة طلب خدمة", icon: HiOutlineArrowPath, color: "#f59e0b" },
+  { label: "شحن المحفظة", icon: HiOutlineCreditCard, color: "#8b5cf6" },
+];
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const [adminRes, ordersRes, notificationsRes] = await Promise.all([
-          dashboardService.getAdminData(),
-          orderService.getOrders(),
-          dashboardService.getNotifications()
-        ]);
+/* ─── Quick Services Config ─── */
+const quickServices = [
+  { label: "تغيير البطارية", icon: HiOutlineBolt, bg: "#ede9fe", color: "#7c3aed" },
+  { label: "تغيير الزيت", icon: HiOutlineWrench, bg: "#dbeafe", color: "#2563eb" },
+  { label: "خدمة الإطارات", icon: HiOutlineCog6Tooth, bg: "#e0e7ff", color: "#4f46e5" },
+  { label: "غسيل السيارة", icon: HiOutlineSparkles, bg: "#d1fae5", color: "#059669" },
+  { label: "خدمة الطوارئ", icon: HiOutlineExclamationTriangle, bg: "#fee2e2", color: "#dc2626" },
+  { label: "خدمة الونش", icon: HiOutlineTruck, bg: "#fef3c7", color: "#d97706" },
+];
 
-        const adminPayload = adminRes.data?.data || {};
-        const statsData = adminPayload.stats || {};
-        
-        // Map Stats
-        setStats([
-          { title: 'إجمالي الطلبات', value: statsData.totalOrders || 0, trend: '', icon: TrendingUp, iconBg: 'bg-blue-100', trendUp: true },
-          { title: 'قيد المراجعة', value: statsData.pendingOrders || 0, trend: '', icon: Clock, iconBg: 'bg-yellow-100', trendUp: true },
-          { title: 'جاري التنفيذ', value: statsData.activeOrders || 0, trend: '', icon: Settings, iconBg: 'bg-cyan-100', trendUp: true },
-          { title: 'مكتملة اليوم', value: statsData.todayOrders || 0, trend: '', icon: CheckCircle, iconBg: 'bg-green-100', trendUp: true },
-          { title: 'الفنيون المتاحون', value: adminPayload.technicians?.length || 0, subValue: '', icon: Users, iconBg: 'bg-purple-100', trendUp: true },
-          { title: 'إيرادات اليوم', value: statsData.totalRevenue || 0, subValue: 'جنيه', trend: '', icon: ShoppingBag, iconBg: 'bg-emerald-100', trendUp: true },
-        ]);
+/* ─── Support Links Config ─── */
+const supportLinks = [
+  { label: "الأسئلة الشائعة", icon: HiOutlineQuestionMarkCircle, bg: "#dbeafe", color: "#2563eb" },
+  { label: "محادثة مباشرة", icon: HiOutlineChatBubbleOvalLeft, bg: "#d1fae5", color: "#059669" },
+  { label: "اتصل بنا 19777", icon: HiOutlinePhone, bg: "#ede9fe", color: "#7c3aed" },
+];
 
-        // Map Orders
-        const ordersPayload = ordersRes.data?.data || [];
-        const mappedOrders = ordersPayload.map(order => ({
-          ...order,
-          customer: `العميل #${order.userId}`, 
-          service: `خدمة #${order.serviceId}`,
-          phone: order.phoneNumber,
-          time: new Date(order.createdAt).toLocaleTimeString('ar-EG'),
-          location: order.address,
-          price: order.price || '---',
-          status: order.orderStatus,
-          icon: Droplets
-        }));
+/* ─── Status badge mapper ─── */
+const statusMap = {
+  completed: { label: "مكتمل", className: "completed" },
+  pending: { label: "معلق", className: "pending" },
+  "in-progress": { label: "قيد التنفيذ", className: "in-progress" },
+  cancelled: { label: "ملغي", className: "cancelled" },
+};
 
-        setPendingOrders(mappedOrders.filter(o => o.status === 'New' || o.status === 'pending' || o.status === 0));
-        setCurrentOrders(mappedOrders.filter(o => o.status !== 'New' && o.status !== 'pending' && o.status !== 0));
+export default function AdminHome() {
+  const { user } = useAuth();
 
-        // Map Alerts
-        const notificationsPayload = notificationsRes.data?.data || [];
-        const mappedAlerts = notificationsPayload.map((note, idx) => ({
-          title: note,
-          description: '',
-          time: '',
-          icon: AlertCircle,
-          type: 'info'
-        }));
-        setAlerts(mappedAlerts);
-
-        // Map Technicians
-        const techsPayload = adminPayload.technicians || [];
-        const mappedTechs = techsPayload.map(tech => ({
-          name: tech.name,
-          initial: tech.name ? tech.name.charAt(0) : 'ف',
-          specialty: tech.category || 'عام',
-          location: tech.city || 'غير محدد',
-          rating: tech.rating || 'N/A',
-          orders: tech.ordersCount || 0,
-          available: tech.status === 'Available'
-        }));
-        setTechnicians(mappedTechs.slice(0, 5));
-
-      } catch (error) {
-        console.error('Error fetching dashboard data:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"></div>
-      </div>
-    );
-  }
+  // TODO: Replace with real API data
+  const activeOrder = null;
+  const recentOrders = [];
+  const walletBalance = null;
+  const notifications = [];
 
   return (
-    <div className="font-tajawal">
-      <DashboardHeader 
-        title="الرئيسية" 
-        subtitle={new Date().toLocaleDateString('ar-EG', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })} 
-      />
+    <div dir="rtl">
+      {/* ─── Welcome Banner ─── */}
+      <div className="welcome-banner">
+        <h2>مرحباً، {user?.name || "أحمد"}! 👋</h2>
+        <p>نتمنى لك يوم سعيد. كيف يمكننا مساعدتك اليوم؟</p>
+        <span className="car-icon">🚗</span>
+      </div>
 
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 mb-8">
-        {stats.map((stat, index) => (
-          <StatCard key={index} {...stat} />
+      {/* ─── Active Order ─── */}
+      <div className="section-header">
+        <h3>الطلب النشط</h3>
+      </div>
+
+      <div className="active-order-card">
+        {activeOrder ? (
+          <>
+            <div className="active-order-header">
+              <span style={{ fontSize: "0.8rem", color: "#64748b" }}>
+                #{activeOrder.id}
+              </span>
+              <span className={`status-badge ${statusMap[activeOrder.status]?.className || ""}`}>
+                {statusMap[activeOrder.status]?.label || activeOrder.status}
+              </span>
+            </div>
+            <div className="active-order-body">
+              <div className="active-order-service">
+                <p style={{ fontWeight: 700, color: "#1e293b", marginBottom: 4 }}>{activeOrder.serviceName}</p>
+                <p style={{ fontSize: "0.75rem", color: "#94a3b8" }}>{activeOrder.serviceDetails}</p>
+              </div>
+              <div className="active-order-tech">
+                <p style={{ fontWeight: 700, color: "#1e293b", marginBottom: 4 }}>{activeOrder.techName}</p>
+                <p style={{ fontSize: "0.75rem", color: "#94a3b8" }}>{activeOrder.techRole}</p>
+              </div>
+            </div>
+            <div className="active-order-actions">
+              <button style={{ background: "#f1f5f9", color: "#334155" }}>تفاصيل الطلب</button>
+              <button style={{ background: "#1e40af", color: "white" }}>
+                <HiOutlineMapPin /> تتبع الطلب
+              </button>
+            </div>
+          </>
+        ) : (
+          <div className="empty-state">
+            <div className="empty-icon">📋</div>
+            <p>لا يوجد طلب نشط حالياً</p>
+          </div>
+        )}
+      </div>
+
+      {/* ─── Quick Actions ─── */}
+      <div className="quick-actions">
+        {quickActions.map((action, i) => (
+          <button key={i} className="quick-action-btn">
+            <div className="action-icon" style={{ background: action.color }}>
+              <action.icon />
+            </div>
+            <span>{action.label}</span>
+          </button>
         ))}
       </div>
 
-      {/* Main Content Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        
-        {/* Right Column: New Orders (Takes 2/3 space) */}
-        <div className="lg:col-span-2 order-2 lg:order-1">
-          <div className="flex justify-between items-center mb-6">
-            <a href="#" className="text-blue-600 text-sm font-bold hover:underline">عرض الكل</a>
-            <h2 className="text-2xl font-black text-slate-800 flex items-center gap-2">
-              طلبات جديدة تحتاج موافقة (4)
-            </h2>
+      {/* ─── Quick Services ─── */}
+      <div className="section-header">
+        <h3>الخدمات السريعة</h3>
+      </div>
+
+      <div className="services-grid">
+        {quickServices.map((svc, i) => (
+          <div key={i} className="service-card">
+            <div className="service-icon" style={{ background: svc.bg, color: svc.color }}>
+              <svc.icon size={22} />
+            </div>
+            <div className="service-name">{svc.label}</div>
+            {/* Price will come from API */}
           </div>
-          
-          <div className="space-y-4 mb-10">
-            {pendingOrders.map((order) => (
-              <OrderApprovalCard key={order.id} {...order} />
+        ))}
+      </div>
+
+      {/* ─── Bottom Grid: Orders + Side Widgets ─── */}
+      <div className="content-grid">
+        {/* Recent Orders */}
+        <div>
+          <div className="section-header">
+            <h3>الطلبات الأخيرة</h3>
+            <a href="#">
+              عرض الكل <HiOutlineArrowLeft size={14} />
+            </a>
+          </div>
+
+          <div className="orders-list">
+            {recentOrders.length > 0 ? (
+              recentOrders.map((order, i) => (
+                <div key={i} className="order-item">
+                  <div className="order-info">
+                    <div className="order-icon" style={{ background: "#dbeafe", color: "#2563eb" }}>
+                      <HiOutlineWrench />
+                    </div>
+                    <div className="order-details">
+                      <h4>{order.serviceName}</h4>
+                      <p>{order.date}</p>
+                    </div>
+                  </div>
+                  <div className="order-meta">
+                    <span className={`status-badge ${statusMap[order.status]?.className || ""}`}>
+                      {statusMap[order.status]?.label || order.status}
+                    </span>
+                    <span className="order-price">{order.price} جنيه</span>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="empty-state">
+                <div className="empty-icon">📦</div>
+                <p>لا توجد طلبات حتى الآن</p>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Side Widgets */}
+        <div>
+          {/* Wallet */}
+          <div className="wallet-card">
+            <div className="wallet-header">
+              <h4>المحفظة</h4>
+              <HiOutlineCreditCard size={20} />
+            </div>
+            <div className="wallet-balance">
+              {walletBalance !== null ? `${walletBalance}` : "---"} <span style={{ fontSize: "1rem" }}>جنيه</span>
+            </div>
+            <div className="wallet-label">الرصيد الحالي</div>
+            <div className="wallet-actions">
+              <button className="btn-primary">شحن الرصيد</button>
+              <button className="btn-secondary">العمليات</button>
+            </div>
+          </div>
+
+          {/* Support */}
+          <div className="support-card">
+            <h4>الدعم</h4>
+            <p className="support-subtitle">هل تحتاج مساعدة؟ نحن هنا لخدمتك</p>
+            {supportLinks.map((link, i) => (
+              <a key={i} href="#" className="support-link">
+                <div className="support-icon" style={{ background: link.bg, color: link.color }}>
+                  <link.icon size={16} />
+                </div>
+                {link.label}
+              </a>
             ))}
           </div>
 
-          {/* Current Orders Section */}
-          <section className="mt-10">
-            <div className="flex justify-between items-center mb-6">
-              <a href="#" className="text-blue-600 text-sm font-bold hover:underline">عرض الكل</a>
-              <h2 className="text-2xl font-black text-slate-800">الطلبات الحالية</h2>
+          {/* Notifications */}
+          <div className="notifications-card">
+            <div className="section-header" style={{ marginBottom: 12 }}>
+              <h3>التنبيهات</h3>
             </div>
-            
-            <div className="bg-white p-6 rounded-[2.5rem] shadow-sm border border-gray-100">
-              <div className="space-y-1">
-                {currentOrders.map((order) => (
-                  <CurrentOrderRow key={order.id} {...order} />
-                ))}
+            {notifications.length > 0 ? (
+              notifications.map((notif, i) => (
+                <div key={i} className="notification-item">
+                  <span className="notification-dot" style={{ background: notif.read ? "#d1d5db" : "#ef4444" }} />
+                  <div>
+                    <h5>{notif.title}</h5>
+                    <p>{notif.body}</p>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="empty-state" style={{ padding: "20px 10px" }}>
+                <div className="empty-icon">🔔</div>
+                <p>لا توجد تنبيهات</p>
               </div>
-            </div>
-          </section>
+            )}
+          </div>
         </div>
-
-        {/* Left Column: Side Info (Takes 1/3 space) */}
-        <div className="lg:col-span-1 order-1 lg:order-2 space-y-8">
-          
-          {/* Alerts Section */}
-          <section>
-            <div className="mb-6 h-[2.5rem] flex items-center justify-end">
-              <h2 className="text-2xl font-black text-slate-800">التنبيهات والإشعارات</h2>
-            </div>
-            <div className="bg-white p-6 rounded-[2.5rem] shadow-sm border border-gray-100">
-              <div className="space-y-1">
-                {alerts.map((alert, index) => (
-                  <AlertCard key={index} {...alert} />
-                ))}
-              </div>
-            </div>
-          </section>
-
-          {/* Technicians Section */}
-          <section>
-            <div className="mb-6 flex items-center justify-between">
-              <a href="#" className="text-blue-600 text-sm font-bold hover:underline">عرض الكل</a>
-              <h2 className="text-2xl font-black text-slate-800">الفنيون المتاحون (5)</h2>
-            </div>
-            <div className="bg-white p-6 rounded-[2.5rem] shadow-sm border border-gray-100">
-              <div className="space-y-1">
-                {technicians.map((tech, index) => (
-                  <TechnicianCard key={index} {...tech} />
-                ))}
-              </div>
-            </div>
-          </section>
-
-        </div>
-
       </div>
     </div>
   );
-};
-
-export default AdminHome;
+}

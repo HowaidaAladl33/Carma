@@ -15,6 +15,11 @@ theme: {
           DEFAULT: "#1e40af",
           dark: "#1e3a8a",
         },
+        sidebar: {
+          DEFAULT: "#1B2559",
+          hover: "#253170",
+          active: "#2D3A80",
+        },
         gray: {
           50: "#f9fafb",
           100: "#f3f4f6",
@@ -28,8 +33,12 @@ theme: {
         warning: "#f59e0b",
         error: "#ef4444",
         success: "#10b981",
-        background: "#f9fafb",
+        background: "#f0f4f8",
         surface: "#ffffff",
+    },
+    boxShadow: {
+        card: "0 2px 12px rgba(0,0,0,0.06)",
+        "card-hover": "0 4px 20px rgba(0,0,0,0.1)",
     },
     },
 },

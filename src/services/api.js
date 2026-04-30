@@ -1,30 +1,35 @@
-import axios from 'axios';
-
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+import axios from "axios";
 
 const api = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: import.meta.env.VITE_API_BASE_URL,
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
 });
 
-export const dashboardService = {
-  getAdminData: () => api.get('/admin'),
-  getNotifications: () => api.get('/api/admin/notifications'),
-  searchOrders: (query) => api.get('/searchOrders', { params: { query } }),
-};
+// Attach token to every request if available
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
 
-export const orderService = {
-  getOrders: () => api.get('/api/orders'),
-  createOrder: (orderData) => api.post('/api/orders', orderData),
-  getOrderById: (id) => api.get(`/api/orders/${id}`),
-  updateOrderStatus: (id, data) => api.put(`/api/orders/${id}`, data),
-  deleteOrder: (id) => api.delete(`/api/orders/${id}`),
-};
-
-export const authService = {
-  login: (credentials) => api.post('/api/Auth/login', credentials),
-};
+// Global response interceptor for error handling
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    // Handle 401 Unauthorized (e.g. expired token)
+    if (error.response?.status === 401) {
+      localStorage.removeItem("token");
+      window.location.href = "/login";
+    }
+    return Promise.reject(error);
+  }
+);
 
 export default api;

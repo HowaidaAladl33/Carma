@@ -3,20 +3,46 @@ import { useNavigate } from 'react-router-dom';
 import Button from "../../component/ui/Button";
 import Input from "../../component/ui/Input";
 import { HiOutlineLockClosed, HiOutlineEnvelope, HiOutlineEye } from "react-icons/hi2";
+import { login } from "../../services/authService";
+import { useAuth } from "../../context/AuthContext";
 
 export default function Login() {
-  const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleLogin = (e) => {
+  const { saveAuth } = useAuth();
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
-    
-    // Simulate a brief loading state for a more realistic feel
-    setTimeout(() => {
-      setIsLoading(false);
-      navigate('/dashboard');
-    }, 1000);
+    setError('');
+    setLoading(true);
+
+    try {
+      const { data } = await login({ email, password });
+
+      // Save token & user data from the API response
+      const token = data.token || data.data?.token;
+      const user = data.user || data.data?.user || data.data;
+
+      if (token) {
+        saveAuth(token, user);
+        navigate('/admin');
+      } else {
+        // If the API returned success but no token, show the message
+        setError(data.message || 'حدث خطأ أثناء تسجيل الدخول');
+      }
+    } catch (err) {
+      const msg =
+        err.response?.data?.message ||
+        err.response?.data?.errors?.[0] ||
+        'البريد الإلكتروني أو كلمة المرور غير صحيحة';
+      setError(msg);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -31,13 +57,20 @@ export default function Login() {
       <h2 className="text-2xl font-black text-slate-800 text-center mb-2">مرحباً Super admin! 👋</h2>
       <p className="text-slate-400 text-sm text-center mb-8 font-medium">سجل دخولك للوصول إلى حسابك</p>
 
-      <form className="space-y-5" onSubmit={handleLogin}>
+      {error && (
+        <div className="mb-4 p-3 rounded-xl bg-red-50 border border-red-200 text-red-600 text-sm text-center font-medium">
+          {error}
+        </div>
+      )}
+
+      <form className="space-y-5" onSubmit={handleSubmit}>
         <Input
           label="البريد الإلكتروني"
           icon={<HiOutlineEnvelope className="text-slate-300" size={20} />}
           placeholder="example@mail.com"
           type="email"
-          required
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
 
         <div className="relative">
@@ -46,7 +79,8 @@ export default function Login() {
             type="password"
             icon={<HiOutlineLockClosed className="text-slate-300" size={20} />}
             placeholder="********"
-            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
           <button type="button" className="absolute left-4 top-[45px] text-slate-400 hover:text-slate-600 transition-colors">
             <HiOutlineEye size={18} />
@@ -58,23 +92,20 @@ export default function Login() {
             <input type="checkbox" className="w-4 h-4 rounded border-slate-200 text-[#1D4ED8]" />
             تذكرني
           </label>
+          {/* <a href="#" className="text-[#1D4ED8] font-bold hover:underline transition-all">نسيت كلمة المرور؟</a> */}
         </div>
 
         <Button
           type="submit"
-          className="w-full bg-[#1D4ED8] hover:bg-[#1e40af] h-14 rounded-2xl shadow-lg shadow-blue-100 text-lg font-bold mt-4 transition-all flex items-center justify-center gap-2"
-          disabled={isLoading}
+          disabled={loading}
+          className="w-full bg-[#1D4ED8] hover:bg-[#1e40af] h-14 rounded-2xl shadow-lg shadow-blue-100 text-lg font-bold mt-4 transition-all disabled:opacity-60 disabled:cursor-not-allowed"
         >
-          {isLoading ? (
-            <div className="flex items-center gap-2">
-              <span className="animate-pulse">جاري تسجيل الدخول...</span>
-            </div>
-          ) : (
-            "تسجيل الدخول"
-          )}
+          {loading ? 'جاري تسجيل الدخول...' : 'تسجيل الدخول'}
         </Button>
+       
       </form>
     </div>
     </div>
   );
+
 };
