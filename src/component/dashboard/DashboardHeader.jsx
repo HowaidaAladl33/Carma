@@ -1,15 +1,23 @@
-import React from 'react';
-import { Search, Bell, ChevronDown } from 'lucide-react';
+import { Search, Bell, ChevronDown, Menu } from 'lucide-react';
 
-const DashboardHeader = ({ title, subtitle }) => {
+const DashboardHeader = ({ title, subtitle, onMenuClick }) => {
   return (
-    <div className="flex flex-col mb-8 font-tajawal">
+    <div className="flex flex-col font-tajawal">
       {/* Top Bar */}
-      <div className="flex items-center justify-between py-4 border-b border-gray-100 mb-6">
-        {/* Title Section (RTL Start - Right) */}
-        <div className="flex flex-col items-start text-right">
-          <h1 className="text-3xl font-black text-primary-dark">{title}</h1>
-          {subtitle && <p className="text-slate-500 font-medium mt-1">{subtitle}</p>}
+      <div className="flex items-center justify-between h-16">
+        {/* Right Section: Mobile Toggle + Title */}
+        <div className="flex items-center gap-4">
+          <button 
+            onClick={onMenuClick}
+            className="md:hidden p-2 hover:bg-slate-50 rounded-lg transition-colors text-slate-600"
+          >
+            <Menu size={24} />
+          </button>
+          
+          <div className="flex flex-col">
+            <h1 className="text-xl sm:text-2xl font-black text-slate-800">{title}</h1>
+            {subtitle && <p className="hidden sm:block text-slate-500 text-xs font-medium">{subtitle}</p>}
+          </div>
         </div>
 
         {/* Search Bar (Center) */}

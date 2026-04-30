@@ -11,9 +11,11 @@ import {
   LogOut,
   X
 } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
 
 const Sidebar = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
+  const { logout } = useAuth();
   const menuItems = [
     { name: 'الرئيسية', icon: Home, path: '/dashboard' },
     { name: 'الطلبات', icon: FileText, path: '/dashboard/orders' },
@@ -25,7 +27,7 @@ const Sidebar = ({ isOpen, onClose }) => {
   ];
 
   const handleLogout = () => {
-    // Add real clear session logic here later (localStorage.clear() etc)
+    logout();
     navigate('/');
   };
 

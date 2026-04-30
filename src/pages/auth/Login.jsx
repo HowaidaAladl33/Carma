@@ -18,14 +18,14 @@ export default function Login() {
   // Redirect if already authenticated
   React.useEffect(() => {
     if (isAuthenticated) {
-      navigate('/admin', { replace: true });
+      navigate('/dashboard', { replace: true });
     }
   }, [isAuthenticated, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-    setLoading(true);``
+    setLoading(true);
 
     try {
       const { data } = await login({ email, password });
@@ -36,7 +36,7 @@ export default function Login() {
 
       if (token) {
         saveAuth(token, user);
-        navigate('/admin');
+        navigate('/dashboard');
       } else {
         // If the API returned success but no token, show the message
         setError(data.message || 'حدث خطأ أثناء تسجيل الدخول');

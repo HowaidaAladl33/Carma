@@ -32,13 +32,18 @@ export default function App() {
 
           {/* Dashboard (protected) */}
           <Route
+            path="/dashboard"
             element={
               <ProtectedRoute>
                 <DashboardLayout />
               </ProtectedRoute>
             }
           >
-            <Route path="/admin" element={<AdminHome />} />
+            <Route index element={<AdminHome />} />
+            <Route path="orders" element={<AdminHome />} /> {/* Placeholder for now */}
+            <Route path="technicians" element={<AdminHome />} /> {/* Placeholder for now */}
+            <Route path="reports" element={<AdminHome />} /> {/* Placeholder for now */}
+            <Route path="settings" element={<AdminHome />} /> {/* Placeholder for now */}
           </Route>
 
           <Route path="*" element={<Navigate to="/" />} />
