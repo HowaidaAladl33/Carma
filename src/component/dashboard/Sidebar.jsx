@@ -18,7 +18,7 @@ const Sidebar = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
   const { logout } = useAuth();
   const menuItems = [
-    { name: 'الرئيسية', icon: Home, path: '/admin' },
+    { name: 'الرئيسية', icon: Home, path: '/admin', end: true },
     { name: 'الطلبات', icon: FileText, path: '/admin/orders' },
     { name: 'الفنيون', icon: Users, path: '/admin/technicians' },
     { name: 'الإشعارات', icon: Bell, path: '/admin/notifications', badge: 5 },
@@ -53,6 +53,7 @@ const Sidebar = ({ isOpen, onClose }) => {
           <NavLink
             key={item.name}
             to={item.path}
+            end={item.end}
             onClick={() => window.innerWidth < 768 && onClose()}
             className={({ isActive }) => `
               flex items-center justify-between px-6 py-4 rounded-full transition-all duration-300
