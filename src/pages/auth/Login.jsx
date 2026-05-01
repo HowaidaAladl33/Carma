@@ -16,17 +16,17 @@ export default function Login() {
   const { saveAuth, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
-  // Redirect if already authenticated
-  React.useEffect(() => {
-    if (isAuthenticated) {
-      navigate('/admin', { replace: true });
-    }
-  }, [isAuthenticated, navigate]);
+  // Redirect if already authenticated - Commented out as per user request to access login page directly
+  // React.useEffect(() => {
+  //   if (isAuthenticated) {
+  //     navigate('/admin', { replace: true });
+  //   }
+  // }, [isAuthenticated, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-    setLoading(true);``
+    setLoading(true);
 
     try {
       const { data } = await login({ email, password });

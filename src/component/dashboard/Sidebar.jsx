@@ -11,7 +11,6 @@ import {
   LogOut,
   X
 } from 'lucide-react';
-
 import { useAuth } from "../../context/AuthContext";
 
 const Sidebar = ({ isOpen, onClose }) => {
