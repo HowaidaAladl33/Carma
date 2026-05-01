@@ -13,17 +13,19 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
+import { useAuth } from "../../context/AuthContext";
+
 const Sidebar = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
   const { logout } = useAuth();
   const menuItems = [
-    { name: 'الرئيسية', icon: Home, path: '/dashboard' },
-    { name: 'الطلبات', icon: FileText, path: '/dashboard/orders' },
-    { name: 'الفنيون', icon: Users, path: '/dashboard/technicians' },
-    { name: 'الإشعارات', icon: Bell, path: '/dashboard/notifications', badge: 5 },
-    { name: 'التقارير', icon: BarChart2, path: '/dashboard/reports' },
-    { name: 'الملف الشخصي', icon: User, path: '/dashboard/profile' },
-    { name: 'الإعدادات', icon: Settings, path: '/dashboard/settings' },
+    { name: 'الرئيسية', icon: Home, path: '/admin' },
+    { name: 'الطلبات', icon: FileText, path: '/admin/orders' },
+    { name: 'الفنيون', icon: Users, path: '/admin/technicians' },
+    { name: 'الإشعارات', icon: Bell, path: '/admin/notifications', badge: 5 },
+    { name: 'التقارير', icon: BarChart2, path: '/admin/reports' },
+    { name: 'الملف الشخصي', icon: User, path: '/admin/profile' },
+    { name: 'الإعدادات', icon: Settings, path: '/admin/settings' },
   ];
 
   const handleLogout = () => {

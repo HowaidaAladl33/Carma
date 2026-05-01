@@ -1,33 +1,43 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
 import Sidebar from "../component/dashboard/Sidebar";
-import DashboardHeader from "../component/dashboard/DashboardHeader";
+import { Menu } from "lucide-react";
 
 export default function DashboardLayout() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="flex min-h-screen bg-[#F8FAFC] font-tajawal" dir="rtl">
-      {/* Sidebar */}
-      <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
+    <div className="flex min-h-screen bg-[#F0F4F8] font-tajawal">
+      {/* Sidebar Component */}
+      <Sidebar isOpen={isSidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-        {/* Header */}
-        <header className="bg-white border-b border-slate-100 px-4 sm:px-8 py-2 sticky top-0 z-30">
-          <DashboardHeader 
-            title="لوحة التحكم" 
-            onMenuClick={() => setIsSidebarOpen(true)} 
-          />
-        </header>
+      <div className="flex-1 flex flex-col min-w-0">
+        {/* Mobile Header Toggle */}
+        <div className="md:hidden flex items-center justify-between p-4 bg-primary-dark text-white shadow-md">
+          <h1 className="text-xl font-black">كار سيرفس</h1>
+          <button 
+            onClick={() => setSidebarOpen(true)}
+            className="p-2 hover:bg-white/10 rounded-xl transition-colors"
+          >
+            <Menu size={24} />
+          </button>
+        </div>
 
-        {/* Scrollable Content */}
-        <main className="flex-1 overflow-y-auto p-4 sm:p-8 custom-scrollbar">
-          <div className="max-w-7xl mx-auto">
-            <Outlet />
-          </div>
+        {/* Page Content */}
+        <main className="flex-1 p-4 md:p-8 overflow-y-auto">
+          <Outlet />
         </main>
       </div>
+
+      {/* Overlay for mobile sidebar */}
+      {isSidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-40 md:hidden backdrop-blur-sm transition-opacity"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
     </div>
   );
 }
+
