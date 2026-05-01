@@ -3,6 +3,7 @@ const Button = ({ children, variant = "primary", className, ...props }) => {
     primary: "bg-primary text-white hover:bg-primary-dark shadow-xl shadow-primary/20",
     secondary: "bg-gray-100 text-gray-600 hover:bg-gray-200",
     outline: "border-2 border-primary text-primary hover:bg-primary/5",
+    custom: "",
   };
 
   return (

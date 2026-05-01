@@ -3,8 +3,8 @@ import { Outlet } from "react-router-dom";
 export default function AuthLayout() {
 
   return (
-    <div className="  flex items-center  max-h-screen overflow-hidden justify-center bg-[#EFF6FF] px-4">
-      <div data-aos="fade-up" data-aos-duration="3000" className="  relative w-full max-w-md  bg-white p-4 h-fit my-[50%] rounded-2xl shadow-2xl shadow-gray-500 border border-gray-100 ">
+    <div className="min-h-screen w-full flex items-center justify-center noise-gradient-bg p-4 font-tajawal">
+      <div data-aos="zoom-in" data-aos-duration="800" className="w-full max-w-[500px]">
         <Outlet />
       </div>
     </div>
