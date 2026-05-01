@@ -8,6 +8,9 @@ import DashboardLayout from "./layouts/DashboardLayout.jsx";
 import ProtectedRoute from "./routes/ProtectedRoute.jsx";
 import Login from "./pages/auth/Login.jsx";
 import AdminHome from "./pages/dashboard/admin/AdminHome.jsx";
+import AdminOrders from "./pages/dashboard/admin/AdminOrders.jsx";
+import Technicians from "./pages/dashboard/admin/Technicians.jsx";
+import Reports from "./pages/dashboard/admin/Reports.jsx";
 import LandingPage from "./pages/landingPage/LandingPage.jsx";
 
 
@@ -39,6 +42,10 @@ export default function App() {
             }
           >
             <Route path="/admin" element={<AdminHome />} />
+            <Route path="/admin/orders" element={<AdminOrders />} />
+            <Route path="/admin/technicians" element={<Technicians />} />
+            <Route path="/admin/reports" element={<Reports />} />
+            {/* Redirect /admin to /admin/home if needed, or keep as is */}
           </Route>
 
           <Route path="*" element={<Navigate to="/" />} />
