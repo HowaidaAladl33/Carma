@@ -1,9 +1,9 @@
 import React from 'react';
 
-const Input = ({ label, icon, type = "text", placeholder, ...props }) => {
+const Input = ({ label, icon, type = "text", placeholder, labelClassName = "text-slate-700", ...props }) => {
   return (
     <div className="w-full space-y-1 text-right" dir="rtl">
-      {label && <label className="block text-sm font-bold text-slate-700 mb-1">{label}</label>}
+      {label && <label className={`block text-sm font-bold mb-1 ${labelClassName}`}>{label}</label>}
       <div className="relative">
         <input
           type={type}
