@@ -1,21 +1,50 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap');
 
 @theme {
-  /* هنا بنعرف الألوان اللي الـ HTML هيشوفها */
-  --color-primary: #1e3a8a;    /* الأزرق */
-  --color-secondary: #7c3aed;  /* البنفسجي */
-  --color-background: #f8fafc; /* لون الخلفية */
-  --color-surface: #ffffff;    /* لون الكروت */
-  --color-success: #10b981;    /* الأخضر */
-  --color-error: #ef4444;      /* الأحمر */
-  
-  /* ممكن كمان تعرفي مسافات وحواف ثابتة */
+  /* الألوان الأساسية - Navy Blue */
+  --color-primary: #1e3a8a;
+  --color-primary-light: #3b82f6;
+  --color-primary-dark: #172554;
+
+  /* Sidebar */
+  --color-sidebar: #1B2559;
+  --color-sidebar-hover: #253170;
+  --color-sidebar-active: #2D3A80;
+
+  /* الألوان المحايدة */
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-300: #d1d5db;
+  --color-gray-500: #64748b;
+  --color-gray-700: #334155;
+  --color-gray-900: #0f172a;
+
+  /* Fonts */
+  --font-tajawal: "Tajawal", sans-serif;
+
+  /* الألوان الدلالية */
+  --color-in-progress: #06b6d4;
+  --color-info: #3b82f6;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+  --color-success: #10b981;
+
+  /* لون الخلفية والكروت */
+  --color-background: #f0f4f8;
+  --color-surface: #ffffff;
+
+  /* مسافات وحواف ثابتة */
   --radius-xl: 1rem;
   --radius-2xl: 1.5rem;
 }
 
-/* أي حاجة هنا هتطبق على الموقع كله */
 @layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 110px;
+  }
+
   body {
     direction: rtl; 
     font-family: var(--font-tajawal);
@@ -171,4 +200,4 @@ input::-ms-clear {
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.4);
-}
+}

@@ -1,5 +1,11 @@
+import { useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import AOS from "aos";
+import "aos/dist/aos.css";
+import { AuthProvider } from "./context/AuthContext.jsx";
 import AuthLayout from "./layouts/AuthLayout.jsx";
+import DashboardLayout from "./layouts/DashboardLayout.jsx";
+import ProtectedRoute from "./routes/ProtectedRoute.jsx";
 import Login from "./pages/auth/Login.jsx";
 import AdminHome from "./pages/dashboard/admin/AdminHome.jsx";
 import AdminOrders from "./pages/dashboard/admin/AdminOrders.jsx";
@@ -10,9 +16,18 @@ import AdminNotifications from "./pages/dashboard/admin/AdminNotifications.jsx";
 
 
 export default function App() {
+  useEffect(() => {
+    AOS.init({
+      duration: 1000,
+      once: true,
+    });
+  }, []);
+
   return (
-    <BrowserRouter>
-      <Routes>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
 
           {/* Auth */}
           <Route element={<AuthLayout />}>
